@@ -23,7 +23,9 @@ jobs:
         run: |
           node .github/scripts/generate-report.js > report.txt
           echo "Report generated"
-
+      - name: Install nodemailer
+        run: npm install nodemailer
+        
       - name: Send email
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -55,6 +57,3 @@ jobs:
               console.log('Email sent:', info.response);
             });
           "
-
-      - name: Install nodemailer
-        run: npm install nodemailer
