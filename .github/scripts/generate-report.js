@@ -67,7 +67,19 @@ function graphql(query) {
 
 async function main() {
   const result = await graphql(query);
-  const project = result.data[ownerType].projectV2;
+
+  console.log(JSON.stringify(result, null, 2));
+  
+  if (result.errors) {
+    console.error(JSON.stringify(result.errors, null, 2));
+    process.exit(1);
+  }
+  
+  const project = result?.data?.[ownerType]?.projectV2;
+  
+  if (!project) {
+    throw new Error("Project not found or inaccessible");
+  }
   const items = project.items.nodes;
 
   // Group items by their Status column value
