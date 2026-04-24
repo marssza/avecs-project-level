@@ -23,37 +23,13 @@ jobs:
         run: |
           node .github/scripts/generate-report.js > report.txt
           echo "Report generated"
+      
       - name: Install nodemailer
         run: npm install nodemailer
-        
-      - name: Send email
+
+      - name: Send email via Gmail
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           REPORT_RECIPIENT: ${{ secrets.REPORT_RECIPIENT }}
-        run: |
-          REPORT_BODY=$(cat report.txt)
-          node -e "
-            const nodemailer = require('nodemailer');
-            const fs = require('fs');
-
-            const transporter = nodemailer.createTransport({
-              service: 'gmail',
-              auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_APP_PASSWORD,
-              },
-            });
-
-            const body = fs.readFileSync('report.txt', 'utf8');
-
-            transporter.sendMail({
-              from: process.env.GMAIL_USER,
-              to: process.env.REPORT_RECIPIENT,
-              subject: 'Weekly Avecs Support Board Report',
-              text: body,
-            }, (err, info) => {
-              if (err) { console.error(err); process.exit(1); }
-              console.log('Email sent:', info.response);
-            });
-          "
+        run: node .github/scripts/send-email.js
