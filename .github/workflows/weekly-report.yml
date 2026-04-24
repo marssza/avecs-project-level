@@ -17,9 +17,9 @@ jobs:
         id: report
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          PROJECT_NUMBER: "7" # 👈 Replace with your project number from Step 1
-          PROJECT_OWNER: "your-org-or-username" # 👈 Replace with your GitHub org or username
-          OWNER_TYPE: "organization" # 👈 Use "user" if it's a personal account, "organization" if org
+          PROJECT_NUMBER: "2" # 👈 Replace with your project number from Step 1
+          PROJECT_OWNER: "marssza" # 👈 Replace with your GitHub org or username
+          OWNER_TYPE: "user" # 👈 Use "user" if it's a personal account, "organization" if org
         run: |
           node .github/scripts/generate-report.js > report.txt
           echo "Report generated"
